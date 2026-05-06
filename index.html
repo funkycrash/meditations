@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daily Marcus Aurelius · Waterfall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     dv01 Waterfall Design System — token subset
+     Sourced from ux.dv01.co/latest/foundations/design-tokens
+     ============================================================ */
+  :root {
+    /* Brand / Default (gray scale) */
+    --color-brand-default-1000: #050505;
+    --color-brand-default-950:  #121212;
+    --color-brand-default-900:  #1e1e1e;
+    --color-brand-default-850:  #2b2b2b;
+    --color-brand-default-800:  #373737;
+    --color-brand-default-750:  #444444;
+    --color-brand-default-700:  #505050;
+    --color-brand-default-650:  #5d5d5d;
+    --color-brand-default-600:  #696969;
+    --color-brand-default-500:  #828282;
+    --color-brand-default-400:  #9b9b9b;
+    --color-brand-default-300:  #b4b4b4;
+    --color-brand-default-250:  #c1c1c1;
+    --color-brand-default-200:  #cdcdcd;
+    --color-brand-default-100:  #e6e6e6;
+    --color-brand-default-50:   #f3f3f3;
+    --color-brand-default-10:   #ffffff;
+
+    /* Brand / Primary (purple) */
+    --color-brand-primary-base:    #855ffc;
+    --color-brand-primary-light:   #cdbcfd;
+    --color-brand-primary-dark:    #3606cc;
+    --color-brand-primary-600:     #572ae4;
+    --color-brand-primary-100:     #f0ebfe;
+
+    /* Brand / Warning (amber — used as the "active" accent in nav) */
+    --color-brand-warning-base:    #f5a623;
+    --color-brand-warning-light:   #ffe896;
+    --color-brand-warning-darker:  #5a3300;
+
+    /* Brand / Success (green) */
+    --color-brand-success-base:    #3ab042;
+
+    /* Brand / Info (blue) */
+    --color-brand-info-base:       #46afdf;
+
+    /* Semantic (component-level aliases) */
+    --color-page-bg:               var(--color-brand-default-1000);
+    --color-card-bg:               var(--color-brand-default-900);
+    --color-card-bg-elevated:      var(--color-brand-default-850);
+    --color-card-border:           var(--color-brand-default-800);
+    --color-text-primary:          var(--color-brand-default-10);
+    --color-text-secondary:        var(--color-brand-default-300);
+    --color-text-tertiary:         var(--color-brand-default-500);
+    --color-divider:               var(--color-brand-default-800);
+
+    /* Border radius (Waterfall uses small radii) */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 6px;
+
+    /* Spacing scale (8px grid) */
+    --space-100: 4px;
+    --space-200: 8px;
+    --space-300: 12px;
+    --space-400: 16px;
+    --space-500: 20px;
+    --space-600: 24px;
+    --space-700: 32px;
+    --space-800: 40px;
+    --space-900: 48px;
+
+    /* Shadow */
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--color-page-bg);
+  }
+
+  body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-700) var(--space-600);
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(133, 95, 252, 0.06) 0%, transparent 55%),
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: auto, 32px 32px, 32px 32px;
+    background-position: center top, 0 0, 0 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ============================================================
+     App bar — minimal chrome mimicking Waterfall app shell
+     ============================================================ */
+  .app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-300) var(--space-400);
+    border-bottom: 1px solid var(--color-divider);
+    margin: calc(-1 * var(--space-700)) calc(-1 * var(--space-600)) var(--space-700);
+    background: var(--color-brand-default-1000);
+    height: 48px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-300);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+  }
+
+  .brand-mark {
+    width: 24px; height: 24px;
+    border-radius: var(--radius-sm);
+    background: var(--color-brand-primary-base);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--color-brand-default-1000);
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+  }
+
+  .brand-meta {
+    color: var(--color-text-tertiary);
+    font-weight: 400;
+    font-size: 12px;
+    border-left: 1px solid var(--color-divider);
+    padding-left: var(--space-300);
+    margin-left: var(--space-200);
+  }
+
+  .breadcrumbs {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-200);
+  }
+  .breadcrumbs .crumb-active { color: var(--color-text-primary); }
+  .breadcrumbs .sep { opacity: 0.5; }
+
+  /* Page heading */
+  .page-head {
+    max-width: 880px;
+    margin: 0 auto var(--space-600);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-400);
+  }
+  .page-head h1 {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .page-head .subtitle {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    margin-top: var(--space-100);
+  }
+
+  /* Lozenge */
+  .lozenge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-100);
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    background: var(--color-brand-default-800);
+    color: var(--color-brand-default-300);
+    border: 1px solid var(--color-divider);
+  }
+  .lozenge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--color-brand-warning-base);
+    box-shadow: 0 0 8px rgba(245, 166, 35, 0.6);
+  }
+
+  /* ============================================================
+     Card — Waterfall Card compound component
+     ============================================================ */
+  .card {
+    max-width: 880px;
+    width: 100%;
+    margin: 0 auto;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 480ms cubic-bezier(0.16, 1, 0.3, 1) 80ms forwards;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-400) var(--space-500);
+    border-bottom: 1px solid var(--color-divider);
+    min-height: 48px;
+  }
+
+  .card-title-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-300);
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    letter-spacing: 0.005em;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    background: rgba(133, 95, 252, 0.16);
+    color: var(--color-brand-primary-light);
+    border: 1px solid rgba(133, 95, 252, 0.3);
+    letter-spacing: 0.02em;
+  }
+
+  .card-action {
+    display: flex;
+    align-items: center;
+    gap: var(--space-100);
+  }
+
+  .icon-btn {
+    width: 28px; height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease;
+  }
+  .icon-btn:hover {
+    background: var(--color-brand-default-800);
+    color: var(--color-text-primary);
+  }
+  .icon-btn:focus-visible {
+    outline: 2px solid var(--color-brand-primary-base);
+    outline-offset: 1px;
+  }
+  .icon-btn svg { width: 14px; height: 14px; }
+
+  .card-content {
+    padding: var(--space-700) var(--space-700) var(--space-600);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-500);
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-200);
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-brand-default-950);
+  }
+  .tag.tag-accent {
+    color: var(--color-brand-warning-base);
+    border-color: rgba(245, 166, 35, 0.4);
+    background: rgba(245, 166, 35, 0.08);
+  }
+
+  .quote-block {
+    position: relative;
+    padding-left: var(--space-500);
+    border-left: 2px solid var(--color-brand-primary-base);
+  }
+
+  blockquote {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.45;
+    color: var(--color-text-primary);
+    letter-spacing: -0.005em;
+  }
+
+  blockquote::before {
+    content: '"';
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--color-brand-primary-base);
+    margin-right: 2px;
+    line-height: 0;
+  }
+  blockquote::after {
+    content: '"';
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--color-brand-primary-base);
+    margin-left: 2px;
+    line-height: 0;
+  }
+
+  .attribution {
+    display: flex;
+    align-items: center;
+    gap: var(--space-300);
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    padding-top: var(--space-300);
+  }
+  .attribution .author {
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-300) var(--space-500);
+    border-top: 1px solid var(--color-divider);
+    background: var(--color-brand-default-950);
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    gap: var(--space-400);
+    flex-wrap: wrap;
+  }
+
+  .data-pair {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-200);
+  }
+  .data-pair .label {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-tertiary);
+  }
+  .data-pair .value {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-300);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--color-brand-success-base);
+    color: var(--color-brand-default-1000);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease, transform 200ms ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    body { padding: var(--space-500) var(--space-300); }
+    .app-bar { margin: calc(-1 * var(--space-500)) calc(-1 * var(--space-300)) var(--space-500); padding: var(--space-300); }
+    .brand-meta { display: none; }
+    .breadcrumbs { display: none; }
+    .page-head { flex-direction: column; align-items: flex-start; }
+    .card-content { padding: var(--space-500); }
+    .card-footer { padding: var(--space-300) var(--space-400); }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app-bar">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <span>Meditations</span>
+      <span class="brand-meta">Daily Insight</span>
+    </div>
+    <div class="breadcrumbs">
+      <span>Library</span>
+      <span class="sep">/</span>
+      <span>Stoic</span>
+      <span class="sep">/</span>
+      <span class="crumb-active">Marcus Aurelius</span>
+    </div>
+  </div>
+
+  <div class="page-head">
+    <div>
+      <h1 id="page-title">Today's Reflection</h1>
+      <div class="subtitle" id="page-subtitle"></div>
+    </div>
+    <span class="lozenge"><span class="dot"></span><span>Live</span></span>
+  </div>
+
+  <article class="card" role="article" aria-labelledby="card-title">
+    <header class="card-header">
+      <div class="card-title-group">
+        <span class="card-title" id="card-title">Marcus Aurelius · Meditations</span>
+        <span class="badge" id="passage-badge">Book —</span>
+      </div>
+      <div class="card-action">
+        <button class="icon-btn" id="copy-btn" aria-label="Copy quote" title="Copy quote">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="4" y="4" width="9" height="10" rx="1"/>
+            <path d="M3 12V3a1 1 0 0 1 1-1h7"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="share-btn" aria-label="Share" title="Share">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="4" cy="8" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="12" cy="13" r="2"/>
+            <path d="M5.7 7l4.6-2.7M5.7 9l4.6 2.7"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="info-btn" aria-label="About" title="About">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="8" cy="8" r="6.5"/>
+            <path d="M8 7v4M8 5v.01" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="card-content">
+      <div class="meta-row">
+        <span class="tag tag-accent" id="tag-date"></span>
+        <span class="tag" id="tag-source"></span>
+        <span class="tag" id="tag-index"></span>
+      </div>
+
+      <div class="quote-block">
+        <blockquote id="quote"></blockquote>
+      </div>
+
+      <div class="attribution">
+        <span class="author">Marcus Aurelius</span>
+        <span>·</span>
+        <span>Roman Emperor, 161 — 180 AD</span>
+      </div>
+    </div>
+
+    <footer class="card-footer">
+      <div style="display:flex; gap: var(--space-500); flex-wrap: wrap;">
+        <span class="data-pair"><span class="label">Source</span><span class="value">Meditations</span></span>
+        <span class="data-pair"><span class="label">Book</span><span class="value" id="footer-book">—</span></span>
+        <span class="data-pair"><span class="label">Section</span><span class="value" id="footer-section">—</span></span>
+      </div>
+      <div class="footer-actions">
+        <span class="data-pair"><span class="label">Refreshes</span><span class="value">Daily · 12:00 AM</span></span>
+      </div>
+    </footer>
+  </article>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+
+<script>
+  // ===========================================================
+  // Curated passages from the Meditations of Marcus Aurelius.
+  // Translations adapted from public-domain editions (George Long, 1862).
+  // ===========================================================
+  const quotes = [
+    { text: "Begin the morning by saying to thyself, I shall meet with the busy-body, the ungrateful, arrogant, deceitful, envious, unsocial. All these things happen to them by reason of their ignorance of what is good and evil.", book: "II", section: "1" },
+    { text: "You have power over your mind — not outside events. Realize this, and you will find strength.", book: "VIII", section: "47" },
+    { text: "Waste no more time arguing what a good man should be. Be one.", book: "X", section: "16" },
+    { text: "The happiness of your life depends upon the quality of your thoughts.", book: "V", section: "16" },
+    { text: "If it is not right, do not do it; if it is not true, do not say it.", book: "XII", section: "17" },
+    { text: "Confine thyself to the present.", book: "VII", section: "29" },
+    { text: "Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.", book: "IV", section: "3" },
+    { text: "Accept the things to which fate binds you, and love the people with whom fate brings you together, and do so with all your heart.", book: "VI", section: "39" },
+    { text: "Look well into thyself; there is a source of strength which will always spring up if thou wilt always look there.", book: "VII", section: "59" },
+    { text: "The best revenge is to be unlike him who performed the injury.", book: "VI", section: "6" },
+    { text: "How much time he gains who does not look to see what his neighbour says or does or thinks.", book: "IV", section: "18" },
+    { text: "Whatever anyone does or says, I must be good.", book: "VII", section: "15" },
+    { text: "Do every act of thy life as if it were thy last.", book: "II", section: "5" },
+    { text: "It is not death that a man should fear, but he should fear never beginning to live.", book: "XII", section: "1" },
+    { text: "Loss is nothing else but change, and change is Nature's delight.", book: "IX", section: "35" },
+    { text: "Receive without conceit, release without struggle.", book: "VIII", section: "33" },
+    { text: "When you arise in the morning, think of what a precious privilege it is to be alive — to breathe, to think, to enjoy, to love.", book: "V", section: "1" },
+    { text: "The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.", book: "IX", section: "23" },
+    { text: "He who lives in harmony with himself lives in harmony with the universe.", book: "VII", section: "9" },
+    { text: "If thou art pained by any external thing, it is not this thing that disturbs thee, but thy own judgment about it. And it is in thy power to wipe out this judgment now.", book: "VIII", section: "47" },
+    { text: "Such as are thy habitual thoughts, such also will be the character of thy mind; for the soul is dyed by the thoughts.", book: "V", section: "16" },
+    { text: "All things are interwoven with one another; a sacred bond unites them; there is scarcely one thing that is isolated from another.", book: "VII", section: "9" },
+    { text: "Nothing has such power to broaden the mind as the ability to investigate systematically and truly all that comes under thy observation in life.", book: "III", section: "11" },
+    { text: "Reject your sense of injury, and the injury itself disappears.", book: "IV", section: "7" },
+    { text: "Dwell on the beauty of life. Watch the stars, and see thyself running with them.", book: "VII", section: "47" },
+    { text: "A man's worth is no greater than his ambitions.", book: "VI", section: "51" },
+    { text: "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.", book: "VII", section: "67" },
+    { text: "When you wake up in the morning, tell yourself: the people I deal with today will be meddling, ungrateful, arrogant, dishonest, jealous, and surly.", book: "II", section: "1" },
+    { text: "Adapt thyself to the things with which thy lot has been cast.", book: "VI", section: "39" },
+    { text: "How ridiculous and what a stranger he is who is surprised at anything which happens in life.", book: "XII", section: "13" },
+    { text: "The universe is change; our life is what our thoughts make it.", book: "IV", section: "3" },
+    { text: "Choose not to be harmed — and you won't feel harmed. Don't feel harmed — and you haven't been.", book: "IV", section: "7" },
+    { text: "Death smiles at us all; all we can do is smile back.", book: "II", section: "12" },
+    { text: "What we do now echoes in eternity.", book: "IV", section: "33" },
+    { text: "The art of living is more like wrestling than dancing.", book: "VII", section: "61" },
+    { text: "Look back over the past, with its changing empires that rose and fell, and you can foresee the future too.", book: "VII", section: "49" },
+    { text: "It is not events that disturb people, it is their judgments concerning them.", book: "XI", section: "16" },
+    { text: "If anyone can refute me — show me I'm making a mistake or looking at things from the wrong perspective — I'll gladly change. It's the truth I'm after.", book: "VI", section: "21" },
+    { text: "Whenever you are about to find fault with someone, ask yourself the following question: What fault of mine most nearly resembles the one I am about to criticize?", book: "X", section: "30" },
+    { text: "Time is a sort of river of passing events, and strong is its current; no sooner is a thing brought to sight than it is swept by and another takes its place.", book: "IV", section: "43" },
+    { text: "Each of us lives only now, this brief instant. The rest has been lived already, or is impossible to see.", book: "III", section: "10" },
+    { text: "Whatever happens at all happens as it should; thou wilt find this true, if thou shouldst watch narrowly.", book: "IV", section: "10" },
+    { text: "Tomorrow is nothing, today is too late; the good lived yesterday.", book: "IV", section: "17" },
+    { text: "A noble man compares and estimates himself by an idea which is higher than himself; and a mean man, by one lower than himself.", book: "VIII", section: "1" },
+    { text: "Do not act as if thou wert going to live ten thousand years. Death hangs over thee. While thou livest, while it is in thy power, be good.", book: "IV", section: "17" },
+    { text: "Think not so much of what thou hast not as of what thou hast.", book: "VII", section: "27" },
+    { text: "Where life is possible at all, a right life is possible.", book: "V", section: "16" },
+    { text: "It is in your power to withdraw yourself whenever you desire. Perfect tranquility within consists in the good ordering of the mind.", book: "IV", section: "3" },
+    { text: "How easy it is to repel and to wipe away every impression which is troublesome or unsuitable, and immediately to be in all tranquility.", book: "V", section: "2" },
+    { text: "Be content to seem what you really are.", book: "VII", section: "5" },
+    { text: "Take full account of the excellencies which thou possessest, and in gratitude remember how thou wouldst hanker after them, if thou hadst them not.", book: "VII", section: "27" },
+    { text: "Stop whatever you're doing for a moment and ask yourself: Am I afraid of death because I won't be able to do this anymore?", book: "X", section: "29" },
+    { text: "The soul becomes dyed with the colour of its thoughts.", book: "V", section: "16" },
+    { text: "Nowhere can man find a quieter or more untroubled retreat than in his own soul.", book: "IV", section: "3" },
+    { text: "He who fears death either fears the loss of sensation or a different kind of sensation. But if thou shalt have no sensation, neither wilt thou feel any harm.", book: "VIII", section: "58" },
+    { text: "Whatever this is that I am, it is a little flesh and breath, and the ruling part.", book: "II", section: "2" },
+    { text: "Cast away opinion, and thou art saved. Who then hinders thee from casting it away?", book: "XII", section: "25" },
+    { text: "If thou workest at that which is before thee, following right reason seriously, vigorously, calmly... thou wilt live happy.", book: "III", section: "12" },
+    { text: "Pass then through this little space of time conformably to nature, and end thy journey in content.", book: "IV", section: "48" },
+    { text: "Whatsoever any man either does or says, thou must be good.", book: "VII", section: "15" },
+    { text: "Be like the cliff against which the waves continually break; but it stands firm and tames the fury of the water around it.", book: "IV", section: "49" },
+    { text: "From Diognetus: not to busy myself about trifling things; not to give credit to what was said by miracle-workers and jugglers about incantations and the driving away of demons.", book: "I", section: "6" },
+    { text: "From my mother: piety and beneficence, and abstinence not only from evil deeds, but even from evil thoughts.", book: "I", section: "3" },
+    { text: "Whatever may happen to thee, it was prepared for thee from all eternity; and the implication of causes was from eternity spinning the thread of thy being.", book: "X", section: "5" },
+    { text: "All things from eternity are of like forms and come round in a circle.", book: "II", section: "14" },
+    { text: "Even if thou shouldst be going to live three thousand years, and as many times ten thousand years, still remember that no man loses any other life than this which he now lives.", book: "II", section: "14" },
+    { text: "Outward things cannot touch the soul, not in the least degree; nor have they any admission to the soul, nor can they turn or move the soul.", book: "V", section: "19" },
+    { text: "How much trouble he avoids who does not look to see what his neighbour says or does or thinks.", book: "IV", section: "18" },
+    { text: "Be not disgusted, nor discouraged, nor dissatisfied, if thou dost not succeed in doing everything according to right principles.", book: "V", section: "9" },
+    { text: "Do not waste the remainder of thy life in thoughts about others, when thou dost not refer thy thoughts to some object of common utility.", book: "III", section: "4" },
+    { text: "Let it be thy earnest and incessant care, as a Roman and a man, to perform whatsoever it is that thou art about, with true and unfeigned gravity.", book: "II", section: "5" },
+    { text: "Short then is the time which every man lives, and small the nook of the earth where he lives.", book: "III", section: "10" },
+    { text: "He who has seen present things has seen all, both everything which has taken place from all eternity and everything which will be for time without end.", book: "VI", section: "37" },
+    { text: "The universe is transformation: life is opinion.", book: "IV", section: "3" },
+    { text: "Be not ashamed to be helped; for it is thy business to do thy duty like a soldier in the assault on a town.", book: "VII", section: "7" },
+    { text: "Live with the gods. And he lives with the gods who constantly shows to them his own soul is satisfied with what is assigned to it.", book: "V", section: "27" },
+    { text: "Take away thy opinion, and then there is taken away the complaint, 'I have been harmed.' Take away the complaint, and the harm is taken away.", book: "IV", section: "7" },
+    { text: "Look within. Within is the fountain of good, and it will ever bubble up, if thou wilt ever dig.", book: "VII", section: "59" },
+    { text: "Men exist for the sake of one another. Teach them then or bear with them.", book: "VIII", section: "59" },
+    { text: "Whatever any one does or says, I must be good, just as if the gold, or the emerald, or the purple were always saying this, Whatever any one does or says, I must be emerald and keep my colour.", book: "VII", section: "15" },
+    { text: "How quickly all things disappear, in the universe the bodies themselves, but in time the remembrance of them.", book: "II", section: "12" },
+    { text: "Consider that before long thou wilt be nobody and nowhere, nor will any of the things exist which thou now seest.", book: "XII", section: "21" },
+    { text: "All that exists is the seed of what shall be. Thou supposest that only to be seed which is cast into the earth or into a womb: but that is a very vulgar notion.", book: "IV", section: "36" },
+    { text: "Wipe out imagination. Check desire. Extinguish appetite. Keep the ruling faculty in its own power.", book: "IX", section: "7" },
+    { text: "Look round at the courses of the stars, as if thou wert going along with them; and constantly consider the changes of the elements into one another.", book: "VII", section: "47" },
+    { text: "What is not good for the swarm, neither is it good for the bee.", book: "VI", section: "54" },
+    { text: "If anything external pains thee, it is not this thing that disturbs thee, but thy own judgement about it.", book: "VIII", section: "47" },
+    { text: "Suffering is either an affliction to the body — and let the body itself say what it feels — or to the soul. But it is in the soul's power to maintain its own serenity.", book: "VIII", section: "28" },
+    { text: "When thou art offended at any man's fault, forthwith turn to thyself and reflect in what manner thou doest err thyself.", book: "X", section: "30" },
+    { text: "It is sufficient to attend to the daemon within and to reverence it sincerely.", book: "II", section: "13" },
+    { text: "All things are mutually intertwined, and the tie is sacred, and scarcely anything is alien the one to the other.", book: "VII", section: "9" },
+    { text: "What does not benefit the hive is no benefit to the bee.", book: "VI", section: "54" },
+    { text: "Remember that man lives only in the present, in this fleeting instant; all the rest of his life is either past and gone, or not yet revealed.", book: "III", section: "10" },
+    { text: "Dig within. Within you is the wellspring of good, ever ready to flow if you will only dig.", book: "VII", section: "59" },
+    { text: "Begin each day by telling yourself: today I shall be meeting with interference, ingratitude, insolence, disloyalty, ill-will, and selfishness — all of them due to the offenders' ignorance of what is good or evil.", book: "II", section: "1" },
+    { text: "All things fade and quickly turn to myth.", book: "IV", section: "33" },
+    { text: "Never esteem anything as of advantage to thee that shall make thee break thy word or lose thy self-respect.", book: "III", section: "7" },
+    { text: "Let no act be done at haphazard, nor otherwise than according to the finished rules that govern its kind.", book: "IV", section: "2" },
+    { text: "Misfortune nobly borne is good fortune.", book: "IV", section: "49" },
+    { text: "If thou findest in human life anything better than justice, truth, temperance, fortitude... turn to it with all thy soul.", book: "III", section: "6" },
+    { text: "When you have done a good act and another has received it, why do you still look for a third thing besides these — the reputation of having done a good act?", book: "VII", section: "73" },
+    { text: "Receive wealth or prosperity without arrogance; and be ready to let it go.", book: "VIII", section: "33" },
+    { text: "It is not right to vex ourselves at things, for they care nought about it.", book: "VII", section: "38" },
+    { text: "Settle on the type of person you want to be and stick to it, whether alone or in company.", book: "X", section: "8" },
+    { text: "If any man is able to convince me and show me that I do not think or act right, I will gladly change; for I seek the truth.", book: "VI", section: "21" },
+    { text: "Do not disturb thyself by thinking of the whole of thy life.", book: "VIII", section: "36" },
+    { text: "Recall the various times when thou hast been vexed; how all has passed away, and what remains? Nothing.", book: "VII", section: "1" },
+    { text: "Nothing happens to any man that he is not formed by nature to bear.", book: "V", section: "18" },
+    { text: "Pain is neither intolerable nor everlasting, if thou bearest in mind that it has its limits.", book: "VII", section: "33" },
+    { text: "He who does wrong does wrong against himself. He who acts unjustly acts unjustly to himself, because he makes himself bad.", book: "IX", section: "4" },
+    { text: "Constantly regard the universe as one living being, having one substance and one soul.", book: "IV", section: "40" },
+    { text: "If a thing is difficult to be accomplished by thyself, do not think that it is impossible for man.", book: "VI", section: "19" },
+    { text: "Throw away thy books; no longer distract thyself; it is not allowed.", book: "II", section: "2" }
+  ];
+
+  function getDayIndex() {
+    const now = new Date();
+    const epoch = new Date(2024, 0, 1);
+    const oneDay = 1000 * 60 * 60 * 24;
+    const days = Math.floor((now - epoch) / oneDay);
+    return ((days % quotes.length) + quotes.length) % quotes.length;
+  }
+
+  function fmtLong(d) {
+    return d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
+  function fmtShort(d) {
+    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' }).toUpperCase();
+  }
+  function pad(n, len = 3) { return String(n).padStart(len, '0'); }
+
+  const idx = getDayIndex();
+  const q = quotes[idx];
+  const today = new Date();
+
+  document.getElementById('page-subtitle').textContent =
+    `${fmtLong(today)} · A daily passage from Marcus Aurelius`;
+  document.getElementById('passage-badge').textContent = `Book ${q.book}`;
+  document.getElementById('tag-date').textContent = fmtShort(today);
+  document.getElementById('tag-source').textContent = `Meditations · Bk ${q.book}.${q.section}`;
+  document.getElementById('tag-index').textContent = `Entry #${pad(idx + 1)} / ${pad(quotes.length)}`;
+  document.getElementById('quote').textContent = q.text;
+  document.getElementById('footer-book').textContent = q.book;
+  document.getElementById('footer-section').textContent = q.section;
+  document.title = `Meditations · Book ${q.book}.${q.section}`;
+
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  document.getElementById('copy-btn').addEventListener('click', async () => {
+    const text = `"${q.text}"\n\n— Marcus Aurelius, Meditations · Book ${q.book}.${q.section}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast('Copied to clipboard');
+    } catch {
+      showToast('Copy unavailable');
+    }
+  });
+
+  document.getElementById('share-btn').addEventListener('click', async () => {
+    const shareData = {
+      title: 'Daily Marcus Aurelius',
+      text: `"${q.text}" — Marcus Aurelius, Meditations · Book ${q.book}.${q.section}`
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareData.text);
+        showToast('Copied — share anywhere');
+      } catch {
+        showToast('Share unavailable');
+      }
+    }
+  });
+
+  document.getElementById('info-btn').addEventListener('click', () => {
+    showToast(`Entry ${idx + 1} of ${quotes.length} · rotates daily`);
+  });
+</script>
+
+</body>
+</html>
